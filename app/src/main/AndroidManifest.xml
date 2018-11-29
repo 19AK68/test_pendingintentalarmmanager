@@ -17,14 +17,15 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".Receiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </receiver>
+
     </application>
 
 </manifest>
+
+    <!---->
+    <!--<receiver-->
+    <!--android:name=".Receiver"-->
+    <!--android:enabled="true"-->
+    <!--android:exported="true" >-->
+    <!---->
+    <!--</receiver>-->

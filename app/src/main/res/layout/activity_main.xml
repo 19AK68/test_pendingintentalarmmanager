@@ -12,18 +12,21 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button1"
+        android:text="СОЗДАТЬ УВЕДОМЛЕНИЕ"
+        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:onClick="onClick1"
+        android:onClick="onClick"
 
     />
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button2"
-        android:onClick="onClick2"
-        />
 
 
 </LinearLayout>
+
+
+    <!--<Button-->
+    <!--android:id="@+id/button2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/button2"-->
+    <!--android:onClick="onClick2"-->
+        <!--/>-->

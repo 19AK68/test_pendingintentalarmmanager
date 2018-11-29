@@ -5,8 +5,11 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +17,13 @@ import android.view.View;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class MainActivity extends Activity
+public class MainActivity extends  AppCompatActivity
 {
-    final  String LOG_TAG = "myLogs";
+    private static final int NOTIFY_ID = 101;
 
-    NotificationManager notificationManager;
-    AlarmManager alarmManager;
-    Intent intent1,intent2;
-    PendingIntent pendingIntent1,pendingIntent2;
+    private String sContentTitle = "НАПОМИНАНИЕ";
+    private String sContentText = "Пора что-то сделать";
+
 
 
     @Override
@@ -29,40 +31,34 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        alarmManager= (AlarmManager)getSystemService(ALARM_SERVICE);
+
     }
 
-    public void onClick1(View view)
+    public void onClick(View view)
+
     {
-        intent1 =  createIntent("action 1", "extra 1");
-    }
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent =  PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+        Resources res = this.getResources();
 
-    Intent createIntent(String action, String extra)
-    {
+        //android 8.0
 
-        Intent intent = new Intent(this, Receiver.class);
-        intent.setAction(action);
-        intent.putExtra("extra", extra);
-        return intent;
-    }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-    void compare()
-    {
-        Log.d(LOG_TAG, "intent1 = intent2: " + intent1.filterEquals(intent2));
-        Log.d(LOG_TAG, " pendingIntent1 =  pendingIntent2: " + pendingIntent1.equals(pendingIntent2));
-    }
+        builder.setContentIntent(contentIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(sContentTitle)
+                .setContentText(sContentText)
+                .setTicker("Последнее китайское предупреждение!")
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(true);
 
-    void sendNotif(int id, PendingIntent pendingIntent) {
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFY_ID,builder.build());
 
-       Notification notif = new Notification(R.mipmap.ic_launcher, "Notif "
-                + id, System.currentTimeMillis());
-        notif.flags |= Notification.FLAG_AUTO_CANCEL;
-        notif.setLatestEventInfo(this, "Title " + id, "Content " + id, pendingIntent);
-        notificationManager.notify(id, notif);
-    }
 
-    public void onClick2(View view) {
 
     }
+
+
 }
