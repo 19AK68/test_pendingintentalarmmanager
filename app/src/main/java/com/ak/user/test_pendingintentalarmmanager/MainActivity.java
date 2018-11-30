@@ -8,8 +8,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +63,32 @@ public class MainActivity extends  AppCompatActivity
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void sendActionNotification(View view) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        // Намерение для запуска второй активности
+        Intent intent = new Intent(this, SecondActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        // Строим уведомление
+        Notification builder = new Notification.Builder(this)
+                .setTicker("Пришла посылка!")
+                .setContentTitle("Посылка")
+                .setContentText(
+                        "Это я, почтальон Печкин. Принес для вас посылку")
+                .setSmallIcon(R.mipmap.ic_launcher).setContentIntent(pendingIntent)
+                .addAction(R.mipmap.ic_launcher, "Открыть", pendingIntent)
+                .addAction(R.mipmap.ic_launcher, "Отказаться", pendingIntent)
+                .addAction(R.mipmap.ic_launcher, "Другой вариант", pendingIntent)
+                .build();
+
+        // убираем уведомление, когда его выбрали
+        builder.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, builder);
+    }
+
 
 
 }
